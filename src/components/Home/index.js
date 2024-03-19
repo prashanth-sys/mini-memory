@@ -19,7 +19,7 @@ const Home = () => (
       </li>
 
       <li className="game-card-container">
-        <Link to="/memory/matrix" className="link">
+        <Link to="/memory-matrix" className="link">
           {' '}
           {/* Link to Memory Matrix Route */}
           <img

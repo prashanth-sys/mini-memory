@@ -1,5 +1,5 @@
 import {Link} from 'react-router-dom'
-import {FaArrowLeft} from 'react-icons/fa'
+import {BiArrowBack} from 'react-icons/bi'
 
 import './index.css'
 
@@ -8,7 +8,7 @@ const MatrixHomePage = () => (
     <div className="back-icon">
       <Link to="/" className="link">
         <button type="button" className="back-button">
-          <FaArrowLeft className="icon" />
+          <BiArrowBack className="icon" />
           <p className="back">Back</p>
         </button>
       </Link>
@@ -19,7 +19,7 @@ const MatrixHomePage = () => (
       alt="memory matrix"
       className="image"
     />
-    <p className="rules">Rules</p>
+    <h1 className="rules">Rules</h1>
     <ul className="rules-list-container">
       <li>
         In each level of the Game, Users should be able to see the Grid with (N

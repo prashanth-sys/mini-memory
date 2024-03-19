@@ -18,8 +18,9 @@
   padding: 20px;
   border-radius: 8px;
   width: 80%;
-  max-width: 600px; /* Limit the maximum width of the modal */
-  position: relative; /* Make the close button relative to the modal */
+  max-width: 600px;
+  position: relative;
+  overflow: auto;
 }
 
 .close-button {
@@ -29,6 +30,7 @@
   background: none;
   border: none;
   cursor: pointer;
+  color: #334155; /* Change the color of the close button */
 }
 
 .rules-content {

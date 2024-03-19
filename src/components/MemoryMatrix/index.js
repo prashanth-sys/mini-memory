@@ -1,6 +1,6 @@
 import {Component} from 'react'
 
-import {FaArrowLeft} from 'react-icons/fa'
+import {BiArrowBack} from 'react-icons/bi'
 
 import {Link} from 'react-router-dom'
 
@@ -11,11 +11,17 @@ import './index.css'
 class MemoryMatrix extends Component {
   state = {
     highlightedIndices: [],
+
     clickedIndex: null,
+
     clickedIndices: [],
+
     array: [1, 2, 3, 4, 5, 6, 7, 8, 9],
+
     gridSize: 3,
+
     level: 1,
+    progress: 0,
     results: true,
   }
 
@@ -25,8 +31,11 @@ class MemoryMatrix extends Component {
 
   getGridButtons = () => {
     const {array, gridSize} = this.state
+
     const myArray = array.slice(0, gridSize * gridSize)
+
     const shuffledArray = myArray.sort(() => Math.random() - 0.5)
+
     const slicedArray = shuffledArray.splice(0, gridSize)
 
     console.log(slicedArray)
@@ -34,6 +43,7 @@ class MemoryMatrix extends Component {
     setTimeout(() => {
       this.setState({highlightedIndices: []})
     }, 6000)
+
     this.setState({highlightedIndices: slicedArray})
 
     console.log('New grid buttons:', slicedArray)
@@ -46,23 +56,32 @@ class MemoryMatrix extends Component {
   }
 
   onClickCell = index => {
-    const {highlightedIndices, gridSize, clickedIndices} = this.state
+    const {highlightedIndices, gridSize, clickedIndices, results} = this.state
+
+    if (!results) {
+      return
+    }
 
     const isMatch = highlightedIndices.includes(index + 1)
 
     if (isMatch) {
       console.log('matched')
+
       this.setState(prevState => ({
         clickedIndices: [...prevState.clickedIndices, index],
+
         clickedIndex: index,
       }))
+
       if (clickedIndices.length + 1 === gridSize) {
         this.nextLevel()
       }
     } else {
       console.log('not matched')
+
       this.setState(
         {clickedIndex: null, clickedIndices: [], results: false},
+
         () => {
           setTimeout(() => {
             this.getGridButtons()
@@ -73,13 +92,23 @@ class MemoryMatrix extends Component {
   }
 
   nextLevel = () => {
+    const {level} = this.state
+
     this.setState(prevState => ({
       level: prevState.level + 1,
+      progress: prevState.progress + 1,
       gridSize: prevState.gridSize + 1,
+
       clickedIndices: [],
+
       results: false,
+
       clickedIndex: null,
     }))
+
+    if (level === 15) {
+      this.setState({results: false})
+    }
   }
 
   onClickStartButton = () => {
@@ -89,12 +118,18 @@ class MemoryMatrix extends Component {
   render() {
     const {
       highlightedIndices,
+
       clickedIndex,
+
       isModelOpen,
+
       gridSize,
+
       level,
+
       results,
     } = this.state
+
     console.log(highlightedIndices)
 
     return (
@@ -103,9 +138,10 @@ class MemoryMatrix extends Component {
           <div>
             <div className="game-rules-container">
               <div>
-                <Link to="/memory/matrix" className="link">
+                <Link to="/memory-matrix" className="link">
                   <button type="button" className="back-button">
-                    <FaArrowLeft className="icon" />
+                    <BiArrowBack className="icon" />
+
                     <p className="back">Back</p>
                   </button>
                 </Link>
@@ -127,7 +163,7 @@ class MemoryMatrix extends Component {
             <h1 className="game-heading">Memory Matrix</h1>
 
             <div className="level-container">
-              <p className="level">Level-{level}</p>
+              <p className="level">Level - {level}</p>
 
               <p className="level">Max Level-00</p>
             </div>
@@ -141,7 +177,7 @@ class MemoryMatrix extends Component {
                     classNames += ' highlight'
                   } else if (clickedIndex === index) {
                     classNames += ' clicked'
-                  } else {
+                  } else if (clickedIndex !== index) {
                     classNames += ' not-found'
                   }
 
@@ -151,6 +187,7 @@ class MemoryMatrix extends Component {
                       type="button"
                       className={classNames}
                       onClick={() => this.onClickCell(index)}
+                      data-testid="highlighted"
                     >
                       {_}
                     </button>
@@ -168,58 +205,73 @@ class MemoryMatrix extends Component {
                   alt="neutral face"
                   className="emoji-levels"
                 />
+
                 <img
                   src="https://res.cloudinary.com/dlsuy2qn2/image/upload/v1710757988/Grinmacing_Face_Emoji_f4mh8w.png"
                   alt="grimacing face"
                   className="emoji-levels"
                 />
+
                 <img
                   src="https://res.cloudinary.com/dlsuy2qn2/image/upload/v1710757989/Slightly_Smiling_Face_Emoji_gfj7iq.png"
                   alt="slightly smiling face"
                   className="emoji-levels"
                 />
+
                 <img
                   src="https://res.cloudinary.com/dlsuy2qn2/image/upload/v1710757985/Smiling_Emoji_with_Eyes_Opened_zauypv.png"
                   alt="grinning face with big eyes"
                   className="emoji-levels"
                 />
+
                 <img
                   src="https://res.cloudinary.com/dlsuy2qn2/image/upload/v1710757969/Smiling_With_Closed_Eyes_Emoji_Free_Download_IOS_Emojis_ex34ob.png"
                   alt="grinning face with smiling eyes"
                   className="emoji-levels"
                 />
+
                 <img
                   src="https://res.cloudinary.com/dlsuy2qn2/image/upload/v1710759132/emoticon-2120024_1280_vhvc3h.png"
                   alt="beaming face with smiling eyes"
                   className="emoji-levels"
                 />
+
                 <img
                   src="https://res.cloudinary.com/dlsuy2qn2/image/upload/v1710757878/Smile_Emoji_yawgmz.png"
                   alt="grinning face"
                   className="emoji-levels"
                 />
+
                 <img
                   src="https://res.cloudinary.com/dlsuy2qn2/image/upload/v1710757928/Sunglasses_Emoji_ycgfk6.png"
                   alt="smiling face with sunglasses"
                   className="emoji-levels"
                 />
               </div>
+
               <hr className="hr" />
+
               <div className="level-show">
                 <p className="levels-at">Level 1</p>
+
                 <p className="levels-at">Level 5</p>
+
                 <p className="levels-at">Level 10</p>
+
                 <p className="levels-at">Level 15</p>
               </div>
-              <h1 className="Congratulations">Congratulations!</h1>
+
+              <h1 className="Congratulations">Congratulations</h1>
+
               <h1 className="level-heading">You have reached level {level}</h1>
+
               <Link to="/matrix/game" className="link">
                 <button
                   className="start-button"
                   type="button"
                   onClick={this.onClickStartButton}
                 >
-                  Start playing
+                  Play Again
                 </button>
               </Link>
             </div>
